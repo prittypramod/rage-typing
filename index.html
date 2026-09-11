@@ -14,6 +14,59 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- ============================================== -->
+  <!-- BLANK ENTRY SCREEN & POP-UP MEME               -->
+  <!-- ============================================== -->
+  <div id="blank-entry-screen" class="blank-entry-screen">
+    <div class="blank-screen-hint" id="blank-hint">Loading absolute emptiness...</div>
+    
+    <!-- Pop-up Meme Card (Appears after brief pause) -->
+    <div id="meme-popup" class="meme-popup hidden">
+      <div class="meme-card">
+        <div class="meme-header">
+          <span class="meme-badge">
+            <span class="warning-icon">⚠️</span>
+            <span>CRITICAL USELESS ADVISORY</span>
+          </span>
+          <span class="meme-close-x" id="meme-quick-close" title="Close">✕</span>
+        </div>
+
+        <!-- Meme Box -->
+        <div class="meme-frame">
+          <div class="meme-text-top">WAIT... YOU ACTUALLY CLICKED THIS?</div>
+          
+          <div class="meme-art-container">
+            <div class="meme-emoji-character">🐱🧐</div>
+            <p class="meme-quote">"Bro, there is literally nothing on this website."</p>
+          </div>
+          
+          <div class="meme-text-bottom">PROCEED AT RISK OF WASTING VALUABLE TIME</div>
+        </div>
+
+        <!-- Funny Countdown & Progress -->
+        <div class="meme-timer-bar">
+          <div class="timer-countdown" id="meme-countdown-text">
+            Forced redirection to <strong class="glow-text">NOTHING</strong> in <span id="countdown-num">4</span>s...
+          </div>
+          <div class="timer-progress-track">
+            <div class="timer-progress-fill" id="timer-fill"></div>
+          </div>
+        </div>
+
+        <!-- Meme Actions -->
+        <div class="meme-actions">
+          <button id="meme-enter-btn" class="action-btn btn-danger">
+            <span class="btn-icon">🚪</span>
+            <span>ENTER THE VOID NOW</span>
+          </button>
+          <button id="meme-escape-btn" class="action-btn btn-secondary">
+            <span>Escape (Impossible)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Ambient background glow elements -->
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
@@ -104,6 +157,7 @@
 
       <footer class="home-footer">
         <p>Zero cookies. Zero trackers. Zero point.</p>
+        <button id="replay-blank-btn" class="footer-useless-link">↻ Replay Intro Meme</button>
       </footer>
     </section>
 

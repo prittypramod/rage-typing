@@ -6,6 +6,114 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
+  // 0. Blank Entry Screen & Pop-up Meme Redirection
+  // ==========================================================================
+  const blankScreen = document.getElementById('blank-entry-screen');
+  const blankHint = document.getElementById('blank-hint');
+  const memePopup = document.getElementById('meme-popup');
+  const memeEnterBtn = document.getElementById('meme-enter-btn');
+  const memeEscapeBtn = document.getElementById('meme-escape-btn');
+  const memeQuickClose = document.getElementById('meme-quick-close');
+  const countdownNum = document.getElementById('countdown-num');
+  const timerFill = document.getElementById('timer-fill');
+  const replayBlankBtn = document.getElementById('replay-blank-btn');
+
+  let countdownInterval = null;
+  let hasRedirected = false;
+
+  function initBlankEntry() {
+    hasRedirected = false;
+    blankScreen.classList.remove('redirected');
+    blankHint.classList.remove('hidden');
+    memePopup.classList.add('hidden');
+    if (timerFill) timerFill.style.width = '100%';
+
+    // Blank screen appears first, then the useless meme pops up after 850ms
+    setTimeout(() => {
+      if (hasRedirected) return;
+      blankHint.classList.add('hidden');
+      memePopup.classList.remove('hidden');
+      startMemeCountdown(4);
+    }, 850);
+  }
+
+  function startMemeCountdown(seconds) {
+    let remaining = seconds;
+    if (countdownNum) countdownNum.textContent = remaining;
+    if (timerFill) timerFill.style.width = '100%';
+
+    const totalTimeMs = seconds * 1000;
+    const startTime = Date.now();
+
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    countdownInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.max(0, 1 - (elapsed / totalTimeMs));
+      if (timerFill) timerFill.style.width = `${progress * 100}%`;
+
+      const currentSec = Math.ceil((totalTimeMs - elapsed) / 1000);
+      if (currentSec !== remaining && currentSec >= 0) {
+        remaining = currentSec;
+        if (countdownNum) countdownNum.textContent = remaining;
+      }
+
+      if (elapsed >= totalTimeMs) {
+        clearInterval(countdownInterval);
+        redirectIntoWebsite();
+      }
+    }, 50);
+  }
+
+  function redirectIntoWebsite() {
+    if (hasRedirected) return;
+    hasRedirected = true;
+    if (countdownInterval) clearInterval(countdownInterval);
+
+    // Smooth transition: blank screen fades and scales away
+    blankScreen.classList.add('redirected');
+    
+    // Ensure we start at homepage
+    switchView('home');
+  }
+
+  if (memeEnterBtn) memeEnterBtn.addEventListener('click', redirectIntoWebsite);
+  if (memeQuickClose) memeQuickClose.addEventListener('click', redirectIntoWebsite);
+
+  // Useless Escape button: dodges and confirms resistance is futile
+  let escapeCount = 0;
+  if (memeEscapeBtn) {
+    memeEscapeBtn.addEventListener('click', () => {
+      escapeCount++;
+      if (escapeCount === 1) {
+        memeEscapeBtn.classList.add('dodging');
+        const span = memeEscapeBtn.querySelector('span');
+        if (span) span.textContent = 'Escape Button Jammed!';
+      } else {
+        const span = memeEscapeBtn.querySelector('span');
+        if (span) span.textContent = 'Resistance is Futile...';
+        setTimeout(redirectIntoWebsite, 400);
+      }
+    });
+
+    memeEscapeBtn.addEventListener('mouseenter', () => {
+      if (escapeCount === 0) {
+        memeEscapeBtn.classList.toggle('dodging');
+      }
+    });
+  }
+
+  // Replay intro meme button in footer
+  if (replayBlankBtn) {
+    replayBlankBtn.addEventListener('click', () => {
+      initBlankEntry();
+    });
+  }
+
+  // Launch the blank entry screen immediately
+  initBlankEntry();
+
+  // ==========================================================================
   // 1. Single Page Application (SPA) View Navigation
   // ==========================================================================
   const views = {
