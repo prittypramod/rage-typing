@@ -975,7 +975,7 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   12. Blank Entry Screen & Pop-up Meme
+   12. Blank Entry Screen & Pop-up Meme (Instagram-style Launch)
    -------------------------------------------------------------------------- */
 .blank-entry-screen {
   position: fixed;
@@ -997,23 +997,146 @@ html, body {
   pointer-events: none;
 }
 
-.blank-screen-hint {
+/* Instagram-Style Launch Splash Screen */
+.insta-splash-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 2rem;
+  text-align: center;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.insta-logo-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: instaPulse 2.5s infinite ease-in-out;
+  transition: transform 0.25s ease;
+}
+
+.insta-logo-container:hover {
+  transform: scale(1.08);
+}
+
+.insta-story-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  z-index: 1;
+  animation: instaRingRotate 6s linear infinite;
+  box-shadow: 0 0 30px rgba(220, 39, 67, 0.5);
+}
+
+.insta-splash-logo {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #040508;
+  z-index: 2;
+  background-color: #000000;
+  display: block;
+}
+
+.insta-splash-title {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 1.8rem;
+  letter-spacing: 1px;
+}
+
+.insta-splash-hint {
+  font-size: 0.85rem;
   color: var(--text-faint);
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
   animation: pulseHint 1.8s infinite ease-in-out;
-  transition: opacity 0.4s ease;
 }
 
-.blank-screen-hint.hidden {
-  opacity: 0;
-  pointer-events: none;
+.insta-bottom-branding {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
-@keyframes pulseHint {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.8; }
+.insta-from-text {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+
+.insta-brand-text {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: var(--text-main);
+}
+
+@keyframes instaRingRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes instaPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 35px rgba(220, 39, 67, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 55px rgba(240, 148, 51, 0.6); }
+}
+
+/* Nav Logo Thumbnail */
+.nav-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.nav-logo-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--accent-rage);
+  box-shadow: 0 0 10px var(--accent-rage-glow);
+}
+
+/* Hero Logo */
+.hero-logo-wrapper {
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-brand-logo {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 30px rgba(255, 51, 102, 0.4);
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+}
+
+.hero-brand-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 45px rgba(255, 51, 102, 0.7);
 }
 
 /* Meme Popup Overlay & Card */
@@ -1126,9 +1249,14 @@ html, body {
   gap: 0.5rem;
 }
 
-.meme-emoji-character {
-  font-size: 4rem;
-  animation: memeGentleBounce 2s infinite ease-in-out;
+.meme-main-logo {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 30px rgba(255, 51, 102, 0.4);
+  animation: memeGentleBounce 2.5s infinite ease-in-out;
 }
 
 @keyframes memeGentleBounce {

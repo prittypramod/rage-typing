@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 0. Blank Entry Screen & Pop-up Meme Redirection
   // ==========================================================================
   const blankScreen = document.getElementById('blank-entry-screen');
-  const blankHint = document.getElementById('blank-hint');
+  const instaLogoTrigger = document.getElementById('insta-logo-trigger');
   const memePopup = document.getElementById('meme-popup');
   const memeEnterBtn = document.getElementById('meme-enter-btn');
   const memeEscapeBtn = document.getElementById('meme-escape-btn');
@@ -24,17 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function initBlankEntry() {
     hasRedirected = false;
     blankScreen.classList.remove('redirected');
-    blankHint.classList.remove('hidden');
     memePopup.classList.add('hidden');
     if (timerFill) timerFill.style.width = '100%';
 
-    // Blank screen appears first, then the useless meme pops up after 850ms
+    // Instagram-style splash logo is shown first, followed by the meme popup
     setTimeout(() => {
       if (hasRedirected) return;
-      blankHint.classList.add('hidden');
       memePopup.classList.remove('hidden');
       startMemeCountdown(4);
-    }, 850);
+    }, 1300);
   }
 
   function startMemeCountdown(seconds) {
@@ -77,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     switchView('home');
   }
 
+  if (instaLogoTrigger) instaLogoTrigger.addEventListener('click', redirectIntoWebsite);
   if (memeEnterBtn) memeEnterBtn.addEventListener('click', redirectIntoWebsite);
   if (memeQuickClose) memeQuickClose.addEventListener('click', redirectIntoWebsite);
 

@@ -18,16 +18,33 @@
   <!-- BLANK ENTRY SCREEN & POP-UP MEME               -->
   <!-- ============================================== -->
   <div id="blank-entry-screen" class="blank-entry-screen">
-    <div class="blank-screen-hint" id="blank-hint">Loading absolute emptiness...</div>
+    <!-- Instagram-style Launch Splash Screen -->
+    <div class="insta-splash-stage" id="insta-splash">
+      <div class="insta-logo-container" id="insta-logo-trigger" role="button" tabindex="0" title="Tap to enter NOTHING">
+        <div class="insta-story-ring"></div>
+        <img src="logo.jpg" alt="Nobody Asked But We Found" class="insta-splash-logo">
+      </div>
+      <div class="insta-splash-title">Nobody Asked But We Found</div>
+      <div class="insta-splash-hint">Tap logo or wait to enter</div>
+
+      <!-- Instagram-style bottom footer branding -->
+      <div class="insta-bottom-branding">
+        <span class="insta-from-text">from</span>
+        <span class="insta-brand-text">NOTHING<span class="dot">.</span></span>
+      </div>
+    </div>
     
     <!-- Pop-up Meme Card (Appears after brief pause) -->
     <div id="meme-popup" class="meme-popup hidden">
       <div class="meme-card">
         <div class="meme-header">
-          <span class="meme-badge">
-            <span class="warning-icon">⚠️</span>
-            <span>CRITICAL USELESS ADVISORY</span>
-          </span>
+          <div class="meme-brand-mini">
+            <img src="logo.jpg" alt="Logo" class="meme-logo-thumb">
+            <span class="meme-badge">
+              <span class="warning-icon">⚠️</span>
+              <span>CRITICAL USELESS ADVISORY</span>
+            </span>
+          </div>
           <span class="meme-close-x" id="meme-quick-close" title="Close">✕</span>
         </div>
 
@@ -36,8 +53,8 @@
           <div class="meme-text-top">WAIT... YOU ACTUALLY CLICKED THIS?</div>
           
           <div class="meme-art-container">
-            <div class="meme-emoji-character">🐱🧐</div>
-            <p class="meme-quote">"Bro, there is literally nothing on this website."</p>
+            <img src="logo.jpg" alt="Nobody Asked But We Found" class="meme-main-logo">
+            <p class="meme-quote">"Nobody asked, but we found a 100% useless website."</p>
           </div>
           
           <div class="meme-text-bottom">PROCEED AT RISK OF WASTING VALUABLE TIME</div>
@@ -77,7 +94,10 @@
       <span class="nav-icon">←</span>
       <span class="nav-text">Home</span>
     </button>
-    <div class="nav-title">NOTHING<span class="dot">.</span></div>
+    <div class="nav-brand-group">
+      <img src="logo.jpg" alt="Logo" class="nav-logo-thumb">
+      <div class="nav-title">NOTHING<span class="dot">.</span></div>
+    </div>
     <div class="nav-spacer"></div>
   </header>
 
@@ -89,6 +109,9 @@
     <!-- ============================================== -->
     <section id="view-home" class="view active">
       <div class="home-hero">
+        <div class="hero-logo-wrapper">
+          <img src="logo.jpg" alt="Nobody Asked But We Found" class="hero-brand-logo">
+        </div>
         <div class="badge-useless">
           <span class="badge-pulse"></span>
           100% UNPRODUCTIVE
