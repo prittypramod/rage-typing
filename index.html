@@ -18,43 +18,17 @@
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
-  <!-- ============================================== -->
-  <!-- ENTRANCE LANDING POPUP / ANNOUNCEMENT MODAL     -->
-  <!-- ============================================== -->
-  <div id="landing-modal-backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-card" id="landing-modal-card">
-      <!-- Close "×" Button in top-right -->
-      <button id="modal-close-btn" class="modal-close-btn" aria-label="Close Announcement">×</button>
-
-      <div class="modal-badge">
-        <span class="warning-icon">⚠️</span> IMPORTANT ANNOUNCEMENT
-      </div>
-
-      <h2 id="modal-title" class="modal-title">
-        Congratulations.<br>
-        You have officially entered a website<br>
-        <span class="highlight-useless">that nobody asked for.</span>
-      </h2>
-
-      <p class="modal-subtitle">
-        Do absolutely nothing. That’s the whole point.
-      </p>
-
-      <div class="modal-action-wrapper">
-        <button id="modal-enter-btn" class="action-btn btn-enter-useless">
-          <span>ENTER THE USELESSNESS →</span>
-        </button>
-        <p class="modal-disclaimer">Your time will not be refunded.</p>
-      </div>
-    </div>
-  </div>
-
   <!-- Persistent Top Navigation (Visible in mini-experiences) -->
   <header id="top-nav" class="top-nav hidden">
-    <button id="nav-home-btn" class="nav-btn" aria-label="Return to Homepage">
-      <span class="nav-icon">←</span>
-      <span class="nav-text">Home</span>
-    </button>
+    <div class="nav-left">
+      <button id="nav-home-btn" class="nav-btn" aria-label="Return to Experiences Hub">
+        <span class="nav-icon">←</span>
+        <span class="nav-text">Experiences</span>
+      </button>
+      <button id="nav-landing-btn" class="nav-btn nav-btn-subtle" aria-label="Return to Front Page">
+        <span class="nav-text">Front Page</span>
+      </button>
+    </div>
     <div class="nav-title">NOTHING<span class="dot">.</span></div>
     <div class="nav-spacer"></div>
   </header>
@@ -63,9 +37,50 @@
   <main id="app-container">
 
     <!-- ============================================== -->
-    <!-- 0. HOMEPAGE VIEW                              -->
+    <!-- 0. FRONT PAGE (LANDING ANNOUNCEMENT)           -->
     <!-- ============================================== -->
-    <section id="view-home" class="view active">
+    <section id="view-landing" class="view view-landing active">
+      <div class="landing-hero-card">
+        <div class="modal-badge">
+          <span class="warning-icon">⚠️</span> IMPORTANT ANNOUNCEMENT
+        </div>
+
+        <h1 class="landing-title">
+          Congratulations.<br>
+          You have officially entered a website<br>
+          <span class="highlight-useless">that nobody asked for.</span>
+        </h1>
+
+        <p class="landing-subtitle">
+          Do absolutely nothing. That’s the whole point.
+        </p>
+
+        <!-- Preview tags of the mini-experiences -->
+        <div class="landing-features-preview">
+          <span class="preview-chip">💥 Rage Typing</span>
+          <span class="preview-chip">⭕ Circle Thing</span>
+          <span class="preview-chip">🪟 Mystery Window</span>
+        </div>
+
+        <div class="modal-action-wrapper">
+          <button id="landing-enter-btn" class="action-btn btn-enter-useless">
+            <span>ENTER THE USELESSNESS →</span>
+          </button>
+          <p class="modal-disclaimer">Your time will not be refunded.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 1. EXPERIENCES HUB / HOMEPAGE                  -->
+    <!-- ============================================== -->
+    <section id="view-home" class="view">
+      <div class="home-top-bar">
+        <button id="back-to-landing-btn" class="return-front-btn">
+          ← Front Page
+        </button>
+      </div>
+
       <div class="home-hero">
         <div class="badge-useless">
           <span class="badge-pulse"></span>

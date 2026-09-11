@@ -975,80 +975,44 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   12. Entrance Landing Pop-up / Announcement Modal
+   12. Dedicated Front Page (Landing Announcement) Styles
    -------------------------------------------------------------------------- */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(4, 5, 8, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  display: flex;
+.view-landing {
+  min-height: 85vh;
+  display: none;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  animation: modalBackdropFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  padding: 3rem 1.5rem;
 }
 
-.modal-backdrop.closing {
-  opacity: 0;
-  pointer-events: none;
+.view-landing.active {
+  display: flex;
 }
 
-.modal-backdrop.hidden {
-  display: none !important;
-}
-
-.modal-card {
+.landing-hero-card {
   position: relative;
-  max-width: 540px;
+  max-width: 620px;
   width: 100%;
   background: linear-gradient(145deg, rgba(20, 24, 38, 0.95) 0%, rgba(11, 13, 22, 0.98) 100%);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
-  padding: 3.2rem 2.5rem 2.8rem 2.5rem;
+  padding: 3.8rem 2.8rem 3.2rem 2.8rem;
   text-align: center;
   box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.85),
+    0 35px 90px rgba(0, 0, 0, 0.85),
     0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 0 45px rgba(255, 51, 102, 0.15),
-    0 0 45px rgba(0, 240, 255, 0.12);
-  animation: modalCardPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    0 0 55px rgba(255, 51, 102, 0.16),
+    0 0 55px rgba(0, 240, 255, 0.14);
+  animation: modalCardPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
-.modal-backdrop.closing .modal-card {
-  transform: scale(0.92) translateY(12px);
-  opacity: 0;
-}
-
-/* Close "×" button in top-right */
-.modal-close-btn {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-muted);
-  font-size: 1.4rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.modal-close-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: var(--text-main);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: rotate(90deg) scale(1.05);
+.landing-hero-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 45px 100px rgba(0, 0, 0, 0.9),
+    0 0 65px rgba(255, 51, 102, 0.22),
+    0 0 65px rgba(0, 240, 255, 0.2);
 }
 
 .modal-badge {
@@ -1064,7 +1028,7 @@ html, body {
   font-weight: 700;
   letter-spacing: 1.5px;
   color: var(--accent-amber);
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.8rem;
   box-shadow: 0 0 20px rgba(255, 183, 3, 0.2);
 }
 
@@ -1073,11 +1037,11 @@ html, body {
   animation: warningPulse 1.8s infinite ease-in-out;
 }
 
-.modal-title {
-  font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+.landing-title {
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
   font-weight: 800;
-  line-height: 1.35;
-  letter-spacing: -0.5px;
+  line-height: 1.25;
+  letter-spacing: -1px;
   color: var(--text-main);
   margin-bottom: 1.2rem;
 }
@@ -1090,12 +1054,38 @@ html, body {
   font-weight: 900;
 }
 
-.modal-subtitle {
+.landing-subtitle {
   font-family: var(--font-mono);
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 2.2rem;
+  margin-bottom: 1.8rem;
+}
+
+.landing-features-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.4rem;
+}
+
+.preview-chip {
+  padding: 0.4rem 0.95rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.preview-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
 
 .modal-action-wrapper {
@@ -1106,9 +1096,9 @@ html, body {
 
 .btn-enter-useless {
   width: 100%;
-  max-width: 360px;
+  max-width: 380px;
   justify-content: center;
-  padding: 1.1rem 2rem;
+  padding: 1.15rem 2rem;
   font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -1129,31 +1119,74 @@ html, body {
 }
 
 .modal-disclaimer {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--text-faint);
   letter-spacing: 0.5px;
   font-style: italic;
 }
 
-/* Modal Animations */
-@keyframes modalBackdropFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Home Return Bar & Nav Adjustments */
+.home-top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.return-front-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.return-front-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateX(-3px);
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nav-btn-subtle {
+  background: transparent;
+  border: none;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.nav-btn-subtle:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 @keyframes modalCardPop {
   0% {
     opacity: 0;
-    transform: scale(0.88) translateY(20px);
+    transform: scale(0.9) translateY(25px);
   }
   70% {
-    transform: scale(1.02) translateY(-2px);
+    transform: scale(1.02) translateY(-3px);
   }
   100% {
     opacity: 1;
@@ -1167,12 +1200,16 @@ html, body {
 }
 
 @media (max-width: 600px) {
-  .modal-card {
-    padding: 2.5rem 1.5rem 2rem 1.5rem;
+  .landing-hero-card {
+    padding: 2.8rem 1.6rem 2.2rem 1.6rem;
   }
   
   .btn-enter-useless {
-    padding: 0.95rem 1.4rem;
+    padding: 1rem 1.4rem;
     font-size: 0.95rem;
+  }
+
+  .landing-features-preview {
+    gap: 0.4rem;
   }
 }

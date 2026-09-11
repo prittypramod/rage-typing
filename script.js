@@ -6,53 +6,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
-  // 0. Entrance Landing Pop-up / Announcement Modal
-  // ==========================================================================
-  const landingModalBackdrop = document.getElementById('landing-modal-backdrop');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const modalEnterBtn = document.getElementById('modal-enter-btn');
-
-  let isModalClosed = false;
-
-  function closeLandingModal() {
-    if (isModalClosed || !landingModalBackdrop) return;
-    isModalClosed = true;
-
-    landingModalBackdrop.classList.add('closing');
-
-    setTimeout(() => {
-      landingModalBackdrop.classList.add('hidden');
-    }, 400);
-  }
-
-  if (modalEnterBtn) {
-    modalEnterBtn.addEventListener('click', closeLandingModal);
-  }
-
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeLandingModal);
-  }
-
-  // Also close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !isModalClosed) {
-      closeLandingModal();
-    }
-  });
-
-  // Also close when clicking on the backdrop outside the card
-  if (landingModalBackdrop) {
-    landingModalBackdrop.addEventListener('click', (e) => {
-      if (e.target === landingModalBackdrop) {
-        closeLandingModal();
-      }
-    });
-  }
-
-  // ==========================================================================
   // 1. Single Page Application (SPA) View Navigation
   // ==========================================================================
   const views = {
+    landing: document.getElementById('view-landing'),
     home: document.getElementById('view-home'),
     rage: document.getElementById('view-rage'),
     circles: document.getElementById('view-circles'),
@@ -61,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const topNav = document.getElementById('top-nav');
   const navHomeBtn = document.getElementById('nav-home-btn');
+  const navLandingBtn = document.getElementById('nav-landing-btn');
+
+  const landingEnterBtn = document.getElementById('landing-enter-btn');
+  const backToLandingBtn = document.getElementById('back-to-landing-btn');
 
   const cardRage = document.getElementById('card-rage');
   const cardCircles = document.getElementById('card-circles');
@@ -68,12 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /**
    * Switch between views smoothly without page reload
-   * @param {string} viewKey - 'home' | 'rage' | 'circles' | 'window'
+   * @param {string} viewKey - 'landing' | 'home' | 'rage' | 'circles' | 'window'
    */
   function switchView(viewKey) {
     // Hide all views
     Object.values(views).forEach(v => {
-      v.classList.remove('active');
+      if (v) v.classList.remove('active');
     });
 
     // Show selected view
@@ -82,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Toggle navigation bar visibility
-    if (viewKey === 'home') {
+    if (viewKey === 'landing' || viewKey === 'home') {
       topNav.classList.add('hidden');
     } else {
       topNav.classList.remove('hidden');
@@ -101,7 +62,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Navigation Event Listeners
-  navHomeBtn.addEventListener('click', () => switchView('home'));
+  if (landingEnterBtn) {
+    landingEnterBtn.addEventListener('click', () => switchView('home'));
+  }
+  if (backToLandingBtn) {
+    backToLandingBtn.addEventListener('click', () => switchView('landing'));
+  }
+  if (navLandingBtn) {
+    navLandingBtn.addEventListener('click', () => switchView('landing'));
+  }
+  if (navHomeBtn) {
+    navHomeBtn.addEventListener('click', () => switchView('home'));
+  }
+
   cardRage.addEventListener('click', () => switchView('rage'));
   cardCircles.addEventListener('click', () => switchView('circles'));
   cardWindow.addEventListener('click', () => switchView('window'));
