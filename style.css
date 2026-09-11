@@ -975,382 +975,204 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   12. Blank Entry Screen & Pop-up Meme (Instagram-style Launch)
+   12. Entrance Landing Pop-up / Announcement Modal
    -------------------------------------------------------------------------- */
-.blank-entry-screen {
+.modal-backdrop {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #040508;
   z-index: 9999;
+  background: rgba(4, 5, 8, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+  padding: 1.5rem;
+  animation: modalBackdropFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-.blank-entry-screen.redirected {
+.modal-backdrop.closing {
   opacity: 0;
-  transform: scale(1.08);
   pointer-events: none;
 }
 
-/* Instagram-Style Launch Splash Screen */
-.insta-splash-stage {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  padding: 2rem;
-  text-align: center;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+.modal-backdrop.hidden {
+  display: none !important;
 }
 
-.insta-logo-container {
+.modal-card {
   position: relative;
-  width: 150px;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  animation: instaPulse 2.5s infinite ease-in-out;
-  transition: transform 0.25s ease;
-}
-
-.insta-logo-container:hover {
-  transform: scale(1.08);
-}
-
-.insta-story-ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  z-index: 1;
-  animation: instaRingRotate 6s linear infinite;
-  box-shadow: 0 0 30px rgba(220, 39, 67, 0.5);
-}
-
-.insta-splash-logo {
-  position: relative;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #040508;
-  z-index: 2;
-  background-color: #000000;
-  display: block;
-}
-
-.insta-splash-title {
-  font-family: var(--font-mono);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin-top: 1.8rem;
-  letter-spacing: 1px;
-}
-
-.insta-splash-hint {
-  font-size: 0.85rem;
-  color: var(--text-faint);
-  margin-top: 0.4rem;
-  font-family: var(--font-mono);
-  animation: pulseHint 1.8s infinite ease-in-out;
-}
-
-.insta-bottom-branding {
-  position: absolute;
-  bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.insta-from-text {
-  font-size: 0.72rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  font-family: var(--font-mono);
-}
-
-.insta-brand-text {
-  font-family: var(--font-mono);
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: 2.5px;
-  color: var(--text-main);
-}
-
-@keyframes instaRingRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes instaPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 35px rgba(220, 39, 67, 0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 55px rgba(240, 148, 51, 0.6); }
-}
-
-/* Nav Logo Thumbnail */
-.nav-brand-group {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.nav-logo-thumb {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid var(--accent-rage);
-  box-shadow: 0 0 10px var(--accent-rage-glow);
-}
-
-/* Hero Logo */
-.hero-logo-wrapper {
-  margin-bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-brand-logo {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 30px rgba(255, 51, 102, 0.4);
-  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
-}
-
-.hero-brand-logo:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 0 45px rgba(255, 51, 102, 0.7);
-}
-
-/* Meme Popup Overlay & Card */
-.meme-popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 520px;
-  z-index: 10000;
-  animation: memePopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.meme-popup.hidden {
-  display: none;
-}
-
-@keyframes memePopIn {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7) rotate(-3deg);
-  }
-  70% {
-    transform: translate(-50%, -50%) scale(1.03) rotate(1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
-  }
-}
-
-.meme-card {
-  background: rgba(15, 18, 28, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(255, 51, 102, 0.5);
+  max-width: 540px;
+  width: 100%;
+  background: linear-gradient(145deg, rgba(20, 24, 38, 0.95) 0%, rgba(11, 13, 22, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
-  padding: 2rem 1.8rem;
-  box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.9),
-    0 0 50px rgba(255, 51, 102, 0.25);
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+  padding: 3.2rem 2.5rem 2.8rem 2.5rem;
   text-align: center;
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 45px rgba(255, 51, 102, 0.15),
+    0 0 45px rgba(0, 240, 255, 0.12);
+  animation: modalCardPop 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
-.meme-header {
+.modal-backdrop.closing .modal-card {
+  transform: scale(0.92) translateY(12px);
+  opacity: 0;
+}
+
+/* Close "×" button in top-right */
+.modal-close-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.meme-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.8rem;
-  background: rgba(255, 51, 102, 0.12);
-  border: 1px solid rgba(255, 51, 102, 0.3);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--accent-rage);
-  letter-spacing: 1px;
-}
-
-.meme-close-x {
-  font-size: 1.1rem;
-  color: var(--text-faint);
+  justify-content: center;
   cursor: pointer;
-  padding: 0.2rem 0.5rem;
-  border-radius: 50%;
   transition: all var(--transition-fast);
 }
 
-.meme-close-x:hover {
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg) scale(1.05);
 }
 
-/* Meme Frame Box */
-.meme-frame {
-  background: #090a10;
-  border: 2px solid #232a3c;
-  border-radius: var(--radius-md);
-  padding: 1.2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.meme-text-top {
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1.1rem;
+  background: rgba(255, 183, 3, 0.1);
+  border: 1px solid rgba(255, 183, 3, 0.35);
+  border-radius: var(--radius-full);
   font-family: var(--font-mono);
-  font-weight: 900;
-  font-size: 1.05rem;
-  letter-spacing: 1px;
-  color: #ffffff;
-  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-amber);
+  margin-bottom: 1.6rem;
+  box-shadow: 0 0 20px rgba(255, 183, 3, 0.2);
 }
 
-.meme-art-container {
-  padding: 1.2rem;
-  background: radial-gradient(circle, rgba(255, 51, 102, 0.15) 0%, transparent 70%);
-  border-radius: var(--radius-sm);
+.warning-icon {
+  font-size: 1rem;
+  animation: warningPulse 1.8s infinite ease-in-out;
+}
+
+.modal-title {
+  font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+  margin-bottom: 1.2rem;
+}
+
+.highlight-useless {
+  background: linear-gradient(135deg, #ff3366 0%, #ff9f43 50%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 900;
+}
+
+.modal-subtitle {
+  font-family: var(--font-mono);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2.2rem;
+}
+
+.modal-action-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
 }
 
-.meme-main-logo {
-  width: 125px;
-  height: 125px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 30px rgba(255, 51, 102, 0.4);
-  animation: memeGentleBounce 2.5s infinite ease-in-out;
-}
-
-@keyframes memeGentleBounce {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(4deg); }
-}
-
-.meme-quote {
-  font-style: italic;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.meme-text-bottom {
-  font-family: var(--font-mono);
-  font-weight: 800;
-  font-size: 0.85rem;
-  color: var(--accent-amber);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* Timer Bar */
-.meme-timer-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.timer-countdown {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.glow-text {
-  color: var(--accent-rage);
-  text-shadow: 0 0 8px var(--accent-rage-glow);
-}
-
-.timer-progress-track {
+.btn-enter-useless {
   width: 100%;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.timer-progress-fill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-rage));
-  border-radius: var(--radius-full);
-  transform-origin: left;
-  transition: width 0.1s linear;
-}
-
-/* Actions */
-.meme-actions {
-  display: flex;
-  gap: 0.8rem;
+  max-width: 360px;
   justify-content: center;
-  flex-wrap: wrap;
+  padding: 1.1rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #ff3366 0%, #ff758c 50%, #ffb703 100%);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  box-shadow: 0 10px 30px rgba(255, 51, 102, 0.45);
+  transition: all var(--transition-smooth);
 }
 
-.meme-actions .action-btn {
-  padding: 0.75rem 1.6rem;
-  font-size: 0.95rem;
+.btn-enter-useless:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(255, 51, 102, 0.65), 0 0 25px rgba(255, 183, 3, 0.4);
 }
 
-#meme-escape-btn {
-  transition: all 0.2s ease;
-  position: relative;
+.btn-enter-useless:active {
+  transform: translateY(1px) scale(0.98);
 }
 
-#meme-escape-btn.dodging {
-  transform: translate(25px, -15px);
-}
-
-/* Footer Link */
-.footer-useless-link {
-  display: inline-block;
-  margin-top: 0.8rem;
-  background: transparent;
-  border: none;
+.modal-disclaimer {
+  margin-top: 0.9rem;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-faint);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  transition: color var(--transition-fast);
+  letter-spacing: 0.5px;
+  font-style: italic;
 }
 
-.footer-useless-link:hover {
-  color: var(--accent-cyan);
+/* Modal Animations */
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalCardPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  70% {
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes warningPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@media (max-width: 600px) {
+  .modal-card {
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+  }
+  
+  .btn-enter-useless {
+    padding: 0.95rem 1.4rem;
+    font-size: 0.95rem;
+  }
 }

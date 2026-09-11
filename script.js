@@ -6,111 +6,48 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
-  // 0. Blank Entry Screen & Pop-up Meme Redirection
+  // 0. Entrance Landing Pop-up / Announcement Modal
   // ==========================================================================
-  const blankScreen = document.getElementById('blank-entry-screen');
-  const instaLogoTrigger = document.getElementById('insta-logo-trigger');
-  const memePopup = document.getElementById('meme-popup');
-  const memeEnterBtn = document.getElementById('meme-enter-btn');
-  const memeEscapeBtn = document.getElementById('meme-escape-btn');
-  const memeQuickClose = document.getElementById('meme-quick-close');
-  const countdownNum = document.getElementById('countdown-num');
-  const timerFill = document.getElementById('timer-fill');
-  const replayBlankBtn = document.getElementById('replay-blank-btn');
+  const landingModalBackdrop = document.getElementById('landing-modal-backdrop');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalEnterBtn = document.getElementById('modal-enter-btn');
 
-  let countdownInterval = null;
-  let hasRedirected = false;
+  let isModalClosed = false;
 
-  function initBlankEntry() {
-    hasRedirected = false;
-    blankScreen.classList.remove('redirected');
-    memePopup.classList.add('hidden');
-    if (timerFill) timerFill.style.width = '100%';
+  function closeLandingModal() {
+    if (isModalClosed || !landingModalBackdrop) return;
+    isModalClosed = true;
 
-    // Instagram-style splash logo is shown first, followed by the meme popup
+    landingModalBackdrop.classList.add('closing');
+
     setTimeout(() => {
-      if (hasRedirected) return;
-      memePopup.classList.remove('hidden');
-      startMemeCountdown(4);
-    }, 1300);
+      landingModalBackdrop.classList.add('hidden');
+    }, 400);
   }
 
-  function startMemeCountdown(seconds) {
-    let remaining = seconds;
-    if (countdownNum) countdownNum.textContent = remaining;
-    if (timerFill) timerFill.style.width = '100%';
-
-    const totalTimeMs = seconds * 1000;
-    const startTime = Date.now();
-
-    if (countdownInterval) clearInterval(countdownInterval);
-
-    countdownInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.max(0, 1 - (elapsed / totalTimeMs));
-      if (timerFill) timerFill.style.width = `${progress * 100}%`;
-
-      const currentSec = Math.ceil((totalTimeMs - elapsed) / 1000);
-      if (currentSec !== remaining && currentSec >= 0) {
-        remaining = currentSec;
-        if (countdownNum) countdownNum.textContent = remaining;
-      }
-
-      if (elapsed >= totalTimeMs) {
-        clearInterval(countdownInterval);
-        redirectIntoWebsite();
-      }
-    }, 50);
+  if (modalEnterBtn) {
+    modalEnterBtn.addEventListener('click', closeLandingModal);
   }
 
-  function redirectIntoWebsite() {
-    if (hasRedirected) return;
-    hasRedirected = true;
-    if (countdownInterval) clearInterval(countdownInterval);
-
-    // Smooth transition: blank screen fades and scales away
-    blankScreen.classList.add('redirected');
-    
-    // Ensure we start at homepage
-    switchView('home');
+  if (modalCloseBtn) {
+    modalCloseBtn.addEventListener('click', closeLandingModal);
   }
 
-  if (instaLogoTrigger) instaLogoTrigger.addEventListener('click', redirectIntoWebsite);
-  if (memeEnterBtn) memeEnterBtn.addEventListener('click', redirectIntoWebsite);
-  if (memeQuickClose) memeQuickClose.addEventListener('click', redirectIntoWebsite);
+  // Also close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !isModalClosed) {
+      closeLandingModal();
+    }
+  });
 
-  // Useless Escape button: dodges and confirms resistance is futile
-  let escapeCount = 0;
-  if (memeEscapeBtn) {
-    memeEscapeBtn.addEventListener('click', () => {
-      escapeCount++;
-      if (escapeCount === 1) {
-        memeEscapeBtn.classList.add('dodging');
-        const span = memeEscapeBtn.querySelector('span');
-        if (span) span.textContent = 'Escape Button Jammed!';
-      } else {
-        const span = memeEscapeBtn.querySelector('span');
-        if (span) span.textContent = 'Resistance is Futile...';
-        setTimeout(redirectIntoWebsite, 400);
-      }
-    });
-
-    memeEscapeBtn.addEventListener('mouseenter', () => {
-      if (escapeCount === 0) {
-        memeEscapeBtn.classList.toggle('dodging');
+  // Also close when clicking on the backdrop outside the card
+  if (landingModalBackdrop) {
+    landingModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === landingModalBackdrop) {
+        closeLandingModal();
       }
     });
   }
-
-  // Replay intro meme button in footer
-  if (replayBlankBtn) {
-    replayBlankBtn.addEventListener('click', () => {
-      initBlankEntry();
-    });
-  }
-
-  // Launch the blank entry screen immediately
-  initBlankEntry();
 
   // ==========================================================================
   // 1. Single Page Application (SPA) View Navigation
