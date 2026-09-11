@@ -14,6 +14,30 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- ============================================================ -->
+  <!-- SPLASH SCREEN — shown first, dismissed before anything else  -->
+  <!-- ============================================================ -->
+  <div id="splash-screen" class="splash-screen" aria-hidden="true">
+    <!-- Warm radial vignette glow behind logo -->
+    <div class="splash-glow"></div>
+
+    <!-- Logo wrapper holds bear + wordmark -->
+    <div class="splash-logo-wrap" id="splash-logo-wrap">
+      <!-- Circular badge image (logo.jpg) -->
+      <div class="splash-bear-ring">
+        <img src="logo.jpg" alt="R P Bear Logo" class="splash-bear-img" draggable="false">
+      </div>
+
+      <!-- Wordmark: R 🐼 P  -->
+      <div class="splash-wordmark" id="splash-wordmark">
+        <span class="splash-r">R</span>
+        <span class="splash-panda">🐼</span>
+        <span class="splash-p">P</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Ambient background glow elements -->
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>

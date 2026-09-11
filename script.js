@@ -6,6 +6,21 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
+  // 0. Splash Screen — Premium App-Opening Animation (2.5s + 0.55s exit)
+  // ==========================================================================
+  const splashEl = document.getElementById('splash-screen');
+
+  if (splashEl) {
+    // After the CSS exit animation completes (2.5s delay + 0.55s duration = 3.05s),
+    // mark it done so it collapses out of layout entirely.
+    splashEl.addEventListener('animationend', (e) => {
+      if (e.animationName === 'splashScreenExit') {
+        splashEl.classList.add('done');
+      }
+    });
+  }
+
+  // ==========================================================================
   // 1. Single Page Application (SPA) View Navigation
   // ==========================================================================
   const views = {
