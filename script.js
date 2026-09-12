@@ -6,29 +6,29 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
-  // 0. Splash Screen — Premium App-Opening Animation (2.5s + 0.55s exit)
+  // 0. SPLASH SCREEN — Auto-dismiss after animation completes
   // ==========================================================================
   const splashEl = document.getElementById('splash-screen');
 
   if (splashEl) {
-    // After the CSS exit animation completes (2.5s delay + 0.55s duration = 3.05s),
-    // mark it done so it collapses out of layout entirely.
-    splashEl.addEventListener('animationend', (e) => {
-      if (e.animationName === 'splashScreenExit') {
-        splashEl.classList.add('done');
-      }
-    });
+    // The CSS animation is 2.8s total; we remove the element just after
+    // the fade-out finishes so it no longer blocks the page beneath it.
+    setTimeout(() => {
+      splashEl.classList.add('splash-exit');   // triggers splashFadeOut CSS
+      setTimeout(() => {
+        splashEl.style.display = 'none';       // fully remove from paint tree
+      }, 520);                                  // slightly longer than 0.5s fade
+    }, 2280);                                   // 2.8s animation × 78% hold point
   }
 
-  // ==========================================================================
-  // 1. Single Page Application (SPA) View Navigation
   // ==========================================================================
   const views = {
     landing: document.getElementById('view-landing'),
     home: document.getElementById('view-home'),
     rage: document.getElementById('view-rage'),
     circles: document.getElementById('view-circles'),
-    window: document.getElementById('view-window')
+    window: document.getElementById('view-window'),
+    finale: document.getElementById('view-finale')
   };
 
   const topNav = document.getElementById('top-nav');
@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => rageTextarea && rageTextarea.focus(), 300);
     } else if (viewKey === 'circles') {
       resetCircleGame();
+    } else if (viewKey === 'finale') {
+      launchFinaleConfetti();
     }
   }
 
@@ -93,6 +95,66 @@ document.addEventListener('DOMContentLoaded', () => {
   cardRage.addEventListener('click', () => switchView('rage'));
   cardCircles.addEventListener('click', () => switchView('circles'));
   cardWindow.addEventListener('click', () => switchView('window'));
+
+  // ==========================================================================
+  // 1.5 FINALE — Confetti, Start Again & Victory Modal Bridge
+  // ==========================================================================
+  const confettiLayer = document.getElementById('confetti-layer');
+  const finaleStartAgainBtn = document.getElementById('finale-start-again-btn');
+
+  const CONFETTI_COLORS = ['#ff3366', '#ffb703', '#00f0ff', '#7000ff', '#00ff87', '#ff758c'];
+
+  /**
+   * Burst neon confetti pieces across the screen
+   * @param {number} count - number of pieces to spawn
+   * @param {boolean} spreadFromCenter - throw pieces outward from screen center
+   */
+  function launchFinaleConfetti(count = 90, spreadFromCenter = true) {
+    if (!confettiLayer) return;
+    confettiLayer.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+      const piece = document.createElement('div');
+      piece.classList.add('confetti-piece');
+
+      const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+      const size = Math.random() * 6 + 6;
+      const duration = Math.random() * 2.5 + 2.5;   // 2.5s – 5s
+      const delay = Math.random() * 0.6;             // staggered release
+      const drift = (Math.random() - 0.5) * 220;     // horizontal scatter
+      const spin = Math.random() * 900 + 360;        // rotation amount
+
+      piece.style.left = `${Math.random() * 100}%`;
+      piece.style.width = `${size}px`;
+      piece.style.height = `${size * 1.6}px`;
+      piece.style.background = color;
+      piece.style.boxShadow = `0 0 8px ${color}66`;
+      piece.style.animationDuration = `${duration}s`;
+      piece.style.animationDelay = `${delay}s`;
+      piece.style.setProperty('--drift', `${drift}px`);
+      piece.style.setProperty('--spin', `${spin}deg`);
+
+      confettiLayer.appendChild(piece);
+    }
+
+    // Clean the DOM once every piece has definitely landed
+    const totalMs = (0.6 + 5) * 1000;
+    setTimeout(() => {
+      confettiLayer.innerHTML = '';
+    }, totalMs);
+  }
+
+  /**
+   * Restart the loop: back to the experiences hub with a confetti burst
+   */
+  function startAgain() {
+    launchFinaleConfetti(120);
+    setTimeout(() => switchView('home'), 450);
+  }
+
+  if (finaleStartAgainBtn) {
+    finaleStartAgainBtn.addEventListener('click', startAgain);
+  }
 
 
   // ==========================================================================
@@ -211,6 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const circlesWrapper = document.getElementById('draggable-circles-wrapper');
   const circlesVictoryModal = document.getElementById('circles-victory-modal');
   const circlesResetBtn = document.getElementById('circles-reset-btn');
+  const circlesFinishBtn = document.getElementById('circles-finish-btn');
 
   const TOTAL_CIRCLES = 6;
   let remainingCirclesCount = TOTAL_CIRCLES;
@@ -381,6 +444,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   circlesResetBtn.addEventListener('click', resetCircleGame);
+
+  // "Claim Reward" bridge: from circle victory modal to the grand finale
+  if (circlesFinishBtn) {
+    circlesFinishBtn.addEventListener('click', () => switchView('finale'));
+  }
 
 
   // ==========================================================================

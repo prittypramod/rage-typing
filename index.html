@@ -14,33 +14,43 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- ============================================================ -->
-  <!-- SPLASH SCREEN — shown first, dismissed before anything else  -->
-  <!-- ============================================================ -->
-  <div id="splash-screen" class="splash-screen" aria-hidden="true">
-    <!-- Warm radial vignette glow behind logo -->
-    <div class="splash-glow"></div>
-
-    <!-- Logo wrapper holds bear + wordmark -->
-    <div class="splash-logo-wrap" id="splash-logo-wrap">
-      <!-- Circular badge image (logo.jpg) -->
-      <div class="splash-bear-ring">
-        <img src="logo.jpg" alt="R P Bear Logo" class="splash-bear-img" draggable="false">
-      </div>
-
-      <!-- Wordmark: R 🐼 P  -->
-      <div class="splash-wordmark" id="splash-wordmark">
-        <span class="splash-r">R</span>
-        <span class="splash-panda">🐼</span>
-        <span class="splash-p">P</span>
-      </div>
-    </div>
-  </div>
-
   <!-- Ambient background glow elements -->
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
+
+  <!-- ============================================== -->
+  <!-- SPLASH SCREEN — Plays first, auto-dismisses   -->
+  <!-- ============================================== -->
+  <div id="splash-screen" class="splash-screen" aria-hidden="true">
+    <!-- Radial warm glow behind logo -->
+    <div class="splash-glow-ring"></div>
+
+    <!-- Logo + tagline stacked -->
+    <div class="splash-logo-wrap">
+      <img
+        src="logo.jpg"
+        alt="R🐼P — Nobody asked, but we made it"
+        class="splash-logo-img"
+        draggable="false"
+      >
+      <div class="splash-brand-row">
+        <span class="splash-brand-r">R</span>
+        <span class="splash-brand-panda">🐼</span>
+        <span class="splash-brand-p">P</span>
+      </div>
+      <p class="splash-tagline">nobody asked, but we made it</p>
+    </div>
+
+    <!-- Bottom loading line -->
+    <div class="splash-progress-bar">
+      <div class="splash-progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- FINALE — TIME RESCUE COMPLETION PAGE           -->
+  <!-- ============================================== -->
+  <div id="confetti-layer" class="confetti-layer" aria-hidden="true"></div>
 
   <!-- Persistent Top Navigation (Visible in mini-experiences) -->
   <header id="top-nav" class="top-nav hidden">
@@ -178,6 +188,45 @@
     </section>
 
     <!-- ============================================== -->
+    <!-- 4. FINALE: TIME RESCUE COMPLETE                -->
+    <!-- ============================================== -->
+    <section id="view-finale" class="view">
+      <div class="finale-hero-card">
+        <div class="finale-glow-ring"></div>
+
+        <div class="modal-badge">
+          <span class="warning-icon">🏆</span> MISSION ACCOMPLISHED
+        </div>
+
+        <h1 class="finale-title">🎉 You have successfully rescued time!</h1>
+
+        <p class="finale-subtitle">
+          You’ve completed all the useless activities.<br>
+          Congratulations… <span class="finale-highlight">you did absolutely nothing!</span>
+        </p>
+
+        <div class="finale-stats-row">
+          <span class="finale-stat-chip">⏱️ <strong>∞</strong> minutes wasted</span>
+          <span class="finale-stat-chip">🏅 <strong>0</strong> XP earned</span>
+          <span class="finale-stat-chip">😌 <strong>100%</strong> accomplishment</span>
+        </div>
+
+        <div class="modal-action-wrapper">
+          <button id="finale-start-again-btn" class="finale-start-btn">
+            <span class="finale-btn-shine"></span>
+            <span class="finale-btn-emoji">🔄</span>
+            <span class="finale-btn-label">Start Again</span>
+          </button>
+          <p class="finale-cta-line">Want to waste more time? Click Start Again!</p>
+        </div>
+
+        <footer class="home-footer finale-footer">
+          <p>Time rescued: 100%. Refunds: still unavailable.</p>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
     <!-- 1. RAGE TYPING EXPERIENCE                     -->
     <!-- ============================================== -->
     <section id="view-rage" class="view">
@@ -253,9 +302,14 @@
           <h3 class="victory-title">Congratulations!</h3>
           <p class="victory-message">You accomplished absolutely nothing.</p>
           <p class="victory-submessage">Your reward is 0 XP, 0 dollars, and 30 seconds gone forever.</p>
-          <button id="circles-reset-btn" class="action-btn btn-cyan">
-            Do Nothing Again ↻
-          </button>
+          <div class="victory-actions">
+            <button id="circles-reset-btn" class="action-btn btn-cyan">
+              Do Nothing Again ↻
+            </button>
+            <button id="circles-finish-btn" class="action-btn btn-amber">
+              Claim Reward 🏆
+            </button>
+          </div>
         </div>
       </div>
     </section>

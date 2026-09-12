@@ -1203,7 +1203,7 @@ html, body {
   .landing-hero-card {
     padding: 2.8rem 1.6rem 2.2rem 1.6rem;
   }
-  
+
   .btn-enter-useless {
     padding: 1rem 1.4rem;
     font-size: 0.95rem;
@@ -1212,149 +1212,458 @@ html, body {
   .landing-features-preview {
     gap: 0.4rem;
   }
+
+  .finale-hero-card {
+    padding: 2.6rem 1.4rem 2rem;
+  }
+
+  .finale-start-btn {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+  }
+
+  .finale-stats-row {
+    gap: 0.4rem;
+  }
+
+  .victory-actions {
+    flex-direction: column;
+  }
 }
 
 /* ==========================================================================
-   13. Splash Screen — Premium App-Opening Animation
+   13. FINALE — TIME RESCUE COMPLETION PAGE
    ========================================================================== */
 
-/* Overlay covers everything */
+/* Full-screen confetti canvas above views, below modals */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 500;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -4vh;
+  width: 9px;
+  height: 14px;
+  border-radius: 3px;
+  will-change: transform, opacity;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift, 0px), 106vh, 0) rotate(var(--spin, 720deg));
+    opacity: 0;
+  }
+}
+
+/* Finale hero card */
+.finale-hero-card {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: linear-gradient(145deg, rgba(20, 24, 38, 0.95) 0%, rgba(11, 13, 22, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 3.4rem 2.6rem 2.6rem;
+  text-align: center;
+  overflow: hidden;
+  box-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 55px rgba(0, 240, 255, 0.14),
+    0 0 55px rgba(255, 51, 102, 0.16);
+  animation: modalCardPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: box-shadow 0.4s ease;
+}
+
+.finale-hero-card:hover {
+  box-shadow:
+    0 45px 100px rgba(0, 0, 0, 0.9),
+    0 0 65px rgba(0, 240, 255, 0.2),
+    0 0 65px rgba(255, 51, 102, 0.22);
+}
+
+/* Slow-rotating neon gradient ring behind the card content */
+.finale-glow-ring {
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #ff3366, #ffb703, #00f0ff, #7000ff, #ff3366);
+  filter: blur(46px);
+  opacity: 0.35;
+  animation: finaleRingSpin 9s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes finaleRingSpin {
+  to { transform: rotate(360deg); }
+}
+
+.finale-title {
+  font-size: clamp(1.9rem, 5vw, 2.9rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ff3366 0%, #ff9f43 45%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.finale-subtitle {
+  font-family: var(--font-mono);
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.8rem;
+}
+
+.finale-highlight {
+  color: var(--accent-cyan);
+  font-weight: 700;
+  text-shadow: 0 0 18px var(--accent-cyan-glow);
+}
+
+/* Funny stat chips */
+.finale-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 2.2rem;
+}
+
+.finale-stat-chip {
+  padding: 0.42rem 0.95rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.finale-stat-chip strong {
+  color: var(--accent-amber);
+}
+
+.finale-stat-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* THE Glowing Start Again Button */
+.finale-start-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.15rem 3rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, #ff3366 0%, #ff758c 45%, #ffb703 100%);
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow:
+    0 10px 30px rgba(255, 51, 102, 0.45),
+    0 0 40px rgba(255, 51, 102, 0.25);
+  transition: all var(--transition-smooth);
+  animation: finaleBtnGlow 2.6s ease-in-out infinite;
+}
+
+@keyframes finaleBtnGlow {
+  0%, 100% {
+    box-shadow:
+      0 10px 30px rgba(255, 51, 102, 0.45),
+      0 0 25px rgba(255, 51, 102, 0.28);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 14px 42px rgba(255, 51, 102, 0.6),
+      0 0 55px rgba(0, 240, 255, 0.35);
+    transform: scale(1.03);
+  }
+}
+
+.finale-start-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow:
+    0 18px 45px rgba(255, 51, 102, 0.65),
+    0 0 60px rgba(0, 240, 255, 0.4);
+}
+
+.finale-start-btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* Sweeping shine across the button */
+.finale-btn-shine {
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: shineSweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shineSweep {
+  0% { left: -80%; }
+  55%, 100% { left: 130%; }
+}
+
+.finale-btn-emoji {
+  font-size: 1.35rem;
+  display: inline-block;
+  animation: finaleEmojiSpin 4.5s ease-in-out infinite;
+}
+
+@keyframes finaleEmojiSpin {
+  0%, 92%, 100% { transform: rotate(0deg); }
+  96% { transform: rotate(180deg); }
+}
+
+/* Line under the button */
+.finale-cta-line {
+  margin-top: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.finale-footer {
+  margin-top: 2rem;
+}
+
+/* Victory modal button row (two buttons side by side) */
+.victory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   14. SPLASH SCREEN — Premium App-Opening Animation
+   ========================================================================== */
+
+/* The full-viewport overlay that sits above everything */
 .splash-screen {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: #0a0a0a;
+  background: #0a0a0b;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  /* The screen itself fades out last */
-  animation: splashScreenExit 0.55s ease-in 2.5s forwards;
+
+  /* Subtle radial vignette so edges are darker than center */
+  background-image: radial-gradient(
+    ellipse 70% 60% at 50% 50%,
+    #141416 0%,
+    #0a0a0b 65%,
+    #050506 100%
+  );
+
+  /* The whole screen fades in immediately, then fades out at the end */
+  animation: splashScreenLifecycle 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Soft radial vignette warm glow at centre */
-.splash-glow {
+/* When JS adds .splash-exit we kick off a smooth out-fade */
+.splash-screen.splash-exit {
+  animation: splashFadeOut 0.5s ease-in forwards;
+}
+
+/* Warm amber glow ring behind logo — pulses softly */
+.splash-glow-ring {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 420px;
-  height: 420px;
-  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 220, 160, 0.13) 0%, rgba(255, 180, 80, 0.06) 45%, transparent 72%);
-  filter: blur(28px);
-  opacity: 0;
-  /* glow fades in just before logo */
-  animation: splashGlowIn 0.6s ease-out 0.25s forwards;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 100, 0.10) 0%,
+    rgba(255, 150, 60, 0.06) 40%,
+    transparent 70%
+  );
+  animation: splashGlowPulse 2.8s ease-in-out forwards;
   pointer-events: none;
 }
 
-/* Logo wrapper: handles scale spring */
+/* Wrapper that controls the logo scale + fade-in */
 .splash-logo-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
-  opacity: 0;
-  transform: scale(0.85);
-  /* logo appears 0.3s in, springs to 105% then settles at 100% */
-  animation:
-    splashLogoFadeIn 0.5s ease-out 0.3s forwards,
-    splashLogoScale  0.75s cubic-bezier(0.22, 1.4, 0.5, 1) 0.3s forwards;
+  /* starts invisible + scaled down, animates up */
+  animation: splashLogoReveal 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Circular badge image */
-.splash-bear-ring {
-  width: 210px;
-  height: 210px;
+/* The actual logo image */
+.splash-logo-img {
+  width: clamp(160px, 38vw, 240px);
+  height: clamp(160px, 38vw, 240px);
+  object-fit: contain;
   border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  /* Very subtle warm outer ring shimmer */
-  box-shadow:
-    0 0 0 1.5px rgba(255, 220, 140, 0.18),
-    0 0 30px 6px rgba(255, 200, 100, 0.08);
+  /* subtle warm drop shadow matching the logo's cream tones */
+  filter: drop-shadow(0 0 28px rgba(255, 210, 140, 0.18))
+          drop-shadow(0 4px 20px rgba(0, 0, 0, 0.7));
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-.splash-bear-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 50%;
-}
-
-/* Wordmark: R 🐼 P */
-.splash-wordmark {
+/* R 🐼 P row */
+.splash-brand-row {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  margin-top: 1.35rem;
-  opacity: 0;
-  transform: translateY(10px);
-  /* slides up slightly after logo */
-  animation: splashWordmarkIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
+  gap: 0.4rem;
+  margin-top: 1.4rem;
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: #f5f0e8;
+  text-shadow: 0 0 20px rgba(255, 210, 140, 0.25);
+  animation: splashTextSlideUp 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.splash-r,
-.splash-p {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.35rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  color: #f0e6d3;
+.splash-brand-panda {
+  font-size: clamp(2rem, 6vw, 3rem);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.15));
 }
 
-.splash-panda {
-  font-size: 2.1rem;
-  line-height: 1;
+/* The tagline below */
+.splash-tagline {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+  font-weight: 400;
+  letter-spacing: 2.5px;
+  text-transform: lowercase;
+  color: rgba(245, 240, 232, 0.45);
+  text-align: center;
+  animation: splashTaglineReveal 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ---------- keyframes ---------- */
-
-@keyframes splashGlowIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* Thin progress bar along the very bottom */
+.splash-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
 }
 
-@keyframes splashLogoFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+.splash-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 195, 100, 0.6) 40%,
+    rgba(255, 220, 140, 0.9) 60%,
+    transparent
+  );
+  border-radius: 0 1px 1px 0;
+  animation: splashProgressFill 2.2s ease-out 0.3s forwards;
 }
 
-/* 85% → 105% → settles at 100% handled by cubic-bezier overshoot */
-@keyframes splashLogoScale {
-  from  { transform: scale(0.85); }
-  to    { transform: scale(1);    }
+/* ---- Keyframe definitions ---- */
+
+/* Full screen fade in → hold → fade to black */
+@keyframes splashScreenLifecycle {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }   /* fade in quickly */
+  78%  { opacity: 1; }   /* hold at full */
+  100% { opacity: 0; }   /* fade out to black */
 }
 
-@keyframes splashWordmarkIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0);    }
+/* Separate exit animation used by JS */
+@keyframes splashFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; pointer-events: none; }
 }
 
-/* Whole screen fades to black */
-@keyframes splashScreenExit {
-  0%   { opacity: 1; pointer-events: all; }
-  100% { opacity: 0; pointer-events: none; }
+/* Warm glow: appears, grows slightly, then fades */
+@keyframes splashGlowPulse {
+  0%   { opacity: 0; transform: scale(0.7); }
+  15%  { opacity: 0.5; transform: scale(1); }
+  75%  { opacity: 0.6; transform: scale(1.06); }
+  100% { opacity: 0; transform: scale(1.1); }
 }
 
-/* Once exit animation finishes, JS hides it from DOM */
-.splash-screen.done {
-  display: none !important;
+/* Logo: fades in + scales from 85% → 105% → 100% */
+@keyframes splashLogoReveal {
+  0%   { opacity: 0; transform: scale(0.85); }
+  18%  { opacity: 1; transform: scale(1.05); }
+  32%  { opacity: 1; transform: scale(1.00); }
+  78%  { opacity: 1; transform: scale(1.00); }
+  100% { opacity: 0; transform: scale(1.04); }
 }
 
-/* ---------- Mobile / small screens ---------- */
+/* Brand row slides up from 10px below + fades */
+@keyframes splashTextSlideUp {
+  0%   { opacity: 0; transform: translateY(10px); }
+  20%  { opacity: 0; transform: translateY(10px); }
+  36%  { opacity: 1; transform: translateY(0); }
+  78%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Tagline: delayed slightly relative to brand row */
+@keyframes splashTaglineReveal {
+  0%   { opacity: 0; transform: translateY(8px); }
+  28%  { opacity: 0; transform: translateY(8px); }
+  44%  { opacity: 1; transform: translateY(0); }
+  78%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; }
+}
+
+/* Slim progress bar sweeps left → right */
+@keyframes splashProgressFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* Mobile tweaks */
 @media (max-width: 480px) {
-  .splash-bear-ring {
-    width: 170px;
-    height: 170px;
+  .splash-glow-ring {
+    width: 220px;
+    height: 220px;
   }
-  .splash-r,
-  .splash-p {
-    font-size: 1.9rem;
-  }
-  .splash-panda {
-    font-size: 1.75rem;
+  .splash-brand-row {
+    letter-spacing: 4px;
   }
 }
